@@ -2,29 +2,14 @@ import React, { Component } from 'react'
 import {Container, ListGroup, ListGroupItem, Button} from "reactstrap"
 import {CSSTransition, TransitionGroup} from "react-transition-group"
 import {v1 as uuid} from "uuid";
+import {connect} from "react-redux"
+import {getItems} from "../js/actions/actionCreators"
 
  class ShoppingList extends Component {
-     state={
-         
-         items:[{
-             id:uuid(),
-             name:"egs"
-         },{
-            id:uuid(),
-            name:"milk"
-        },{
-            id:uuid(),
-            name:"bread"
-        },{
-            id:uuid(),
-            name:"water"
-        }]
+     componentDidMount(){
+         this.props.getItems()
      }
-// handleChange=e=>{
-// this.setState({
-//     userInput:e.target.value
-// })
-// }
+
 addItem=()=>{
  const name= prompt('enter name');
  if(name){
@@ -41,7 +26,8 @@ removeItem=(id)=>{
 }
 
     render() {
-        const {items}=this.state;
+
+const {items} = this.props.item
 
         return (
             <Container>
@@ -71,4 +57,11 @@ removeItem=(id)=>{
         )
     }
 }
-export default ShoppingList
+
+const mapStateToProps = state=>({
+    item:state.item
+})
+const mapDispatchToProps={
+    getItems
+}
+export default connect(mapStateToProps,mapDispatchToProps) (ShoppingList)

@@ -6,3 +6,16 @@ export const getItems = ()=>{
         
     }
 }
+export const addItems = (payload)=>{
+    return{
+        type:ADD_ITEM,
+        payload
+    }
+}
+export const deleteItems = (payload)=>{
+    return{
+        type:DELETE_ITEM,
+        payload
+        
+    }
+}

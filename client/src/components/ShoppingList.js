@@ -3,7 +3,7 @@ import {Container, ListGroup, ListGroupItem, Button} from "reactstrap"
 import {CSSTransition, TransitionGroup} from "react-transition-group"
 import {v1 as uuid} from "uuid";
 import {connect} from "react-redux"
-import {getItems} from "../js/actions/actionCreators"
+import {getItems,addItems,deleteItems} from "../js/actions/actionCreators"
 
  class ShoppingList extends Component {
      componentDidMount(){
@@ -13,16 +13,12 @@ import {getItems} from "../js/actions/actionCreators"
 addItem=()=>{
  const name= prompt('enter name');
  if(name){
-    this.setState({
-        items:[...this.state.items, {id:uuid(),name}]
-    })
+    this.props.addItems({id:uuid(),name})
  }   
    
 }
 removeItem=(id)=>{
-    this.setState({
-        items:[...this.state.items.filter(el=>id!==el.id)]
-    })
+    this.props.deleteItems(id)
 }
 
     render() {
@@ -34,20 +30,20 @@ const {items} = this.props.item
             <Button
             color="dark"
             style={{marginBottom:'2rem'}}
-            onClick={()=>this.addItem()}
+            onClick={this.addItem}
             >Add Item</Button>
             <ListGroup>
             <TransitionGroup className="shopping-list">
-            {items.map(({id, name})=>
-            <CSSTransition key={id} timeout={500} classNames="fade">
+            {items.map((el,i)=>
+            <CSSTransition key={i} timeout={500} classNames="fade">
             <ListGroupItem>
             <Button
             className="remove-btn"
             color="danger"
             size="sm"
-            onClick={()=>this.removeItem(id)}
+            onClick={()=>this.removeItem(el.id)}
             >&times;</Button>
-            {name}
+            {el.name}
             </ListGroupItem>
             </CSSTransition>
             )}
@@ -62,6 +58,8 @@ const mapStateToProps = state=>({
     item:state.item
 })
 const mapDispatchToProps={
-    getItems
+    getItems,
+    addItems,
+    deleteItems
 }
 export default connect(mapStateToProps,mapDispatchToProps) (ShoppingList)

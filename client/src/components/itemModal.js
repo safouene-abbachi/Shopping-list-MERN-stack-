@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { v1 as uuid } from "uuid";
 
 import {
   Button,
@@ -30,8 +29,8 @@ class ItemModal extends Component {
       modal: !this.state.modal
     });
   };
-  addItem = e => {
-    this.props.addItems({ id: uuid(), name: this.state.name });
+  addItem = () => {
+    this.props.addItems({ name: this.state.name });
     this.toggle();
   };
 
